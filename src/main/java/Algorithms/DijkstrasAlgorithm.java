@@ -1,4 +1,4 @@
-package algorithms;
+package Algorithms;
 
 import visualizer.Edge;
 import visualizer.Vertex;
@@ -6,7 +6,12 @@ import java.util.*;
 
 public class DijkstrasAlgorithm implements GraphAlgorithm {
     @Override
-    public String run(Map<Vertex, List<Edge>> graph, Vertex start) {
+    public AlgorithmResult run(Map<Vertex, List<Edge>> graph, Vertex start) {
+        
+        // Records the order vertices are settled (finalized) in, for step-by-step animation.
+        // Kept separate from outputMap below, which is a TreeMap and therefore always
+        // iterates in alphabetical order regardless of insertion order.
+        List<Vertex> visitOrder = new ArrayList<>();
 
         // Initialize the map that will store the Vertex: Weight pairs
         Map<Vertex, Double> outputMap = new TreeMap<>();
@@ -43,7 +48,9 @@ public class DijkstrasAlgorithm implements GraphAlgorithm {
             // Add the current vertex with its weight to the outputMap and mark it as processed
             outputMap.put(current, distances.get(current));
             unprocessedVertices.remove(current);
+            visitOrder.add(current);
 
+            
             // Find the edges of the current Vertex
             List<Edge> currentVertexEdges = graph.get(current);
 
@@ -61,7 +68,8 @@ public class DijkstrasAlgorithm implements GraphAlgorithm {
         }
 
         String shortestPaths = processDistances(outputMap);
-        return shortestPaths.substring(0, shortestPaths.length() - 2);
+        String summary = shortestPaths.substring(0, shortestPaths.length() - 2);
+        return new AlgorithmResult(visitOrder, summary);
     }
 
     private static Vertex findSmallestDistanceVertex(Set<Vertex> unprocessedVertices, Map<Vertex, Double> distances) {
