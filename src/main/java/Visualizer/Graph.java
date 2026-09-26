@@ -160,21 +160,17 @@ public class Graph extends JPanel implements MouseListener {
                 Map<Vertex, List<Edge>> graph = createGraphDataStructure();
 
                 // Run the algorithm
-                String path = algorithmSetter.execute(graph, vertex);
+                AlgorithmResult result = algorithmSetter.execute(graph, vertex);
+
+                // Clear any highlighting left over from a previous run
+                clearHighlights();
 
                 // Display the message that the Algorithm is running
                 MainFrame.getAlgorithmDisplayLabel().setText("Please wait...");
 
-                // Timer (with the interval of 1 sec)
-                Timer timer = new Timer(1000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent arg0) {
-                        // Change display label to <path>
-                        MainFrame.getAlgorithmDisplayLabel().setText(path);
-                    }
-                });
-                timer.setRepeats(false);
-                timer.start();
+                // Animate the traversal, highlighting one vertex at a time, then show the summary
+                animateTraversal(result);
+
 
             }
         }
@@ -301,9 +297,41 @@ public class Graph extends JPanel implements MouseListener {
         availableEdges = newEdgesList;
     }
 
+        
+    // Turns off highlighting on every vertex, so a new algorithm run starts from a clean slate.
+    
+    protected static void clearHighlights() {
+        for (Vertex vertex: Vertex.vertices.values()) {
+            vertex.setHighlighted(false);
+        }
+    }
+
+    /**
+     * Steps through the algorithm's visit order one vertex at a time, highlighting each in turn,
+     * then replaces the "Please wait..." message with the final summary text once done.
+     */
+    private static void animateTraversal(AlgorithmResult result) {
+        List<Vertex> visitOrder = result.getVisitOrder();
+        final int[] step = {0};
+
+        Timer timer = new Timer(600, null);
+        timer.addActionListener(e -> {
+            if (step[0] < visitOrder.size()) {
+                visitOrder.get(step[0]).setHighlighted(true);
+                step[0]++;
+            } else {
+                ((Timer) e.getSource()).stop();
+                MainFrame.getAlgorithmDisplayLabel().setText(result.getSummary());
+            }
+        });
+        timer.setRepeats(true);
+        timer.start();
+    }
+
     private static Map<Vertex, List<Edge>> createGraphDataStructure() {
         Map<Vertex, List<Edge>> output = new HashMap<>();
 
+        
         // Place all available vertices as keys with values as empty lists
         for (Vertex vertex: Vertex.vertices.values()) {
             output.put(vertex, new ArrayList<>());
