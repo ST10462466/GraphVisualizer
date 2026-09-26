@@ -1,9 +1,11 @@
 package algorithms;
+
 import visualizer.Edge;
 import visualizer.Vertex;
 import java.util.*;
 
 public class PrimsAlgorithm implements GraphAlgorithm {
+
     @Override
     public AlgorithmResult run(Map<Vertex, List<Edge>> graph, Vertex start) {
 
@@ -20,11 +22,10 @@ public class PrimsAlgorithm implements GraphAlgorithm {
         // Initialize a set that will store the vertices belonging to the MST and add the start Vertex to it
         Set<Vertex> verticesOfMST = new HashSet<>();
         verticesOfMST.add(start);
-        
+
         // Records the order vertices join the MST in, for step-by-step animation
         List<Vertex> visitOrder = new ArrayList<>();
         visitOrder.add(start);
-
 
         // Find all directly and indirectly connected vertices of the Start Vertex
         Set<Vertex> connectedVertices = findConnectedVertices(graph, start);
@@ -48,8 +49,8 @@ public class PrimsAlgorithm implements GraphAlgorithm {
         Edge correctEdge = null;
         double smallestWeight = Double.POSITIVE_INFINITY;
 
-        for (Vertex vertex: verticesOfMST) {
-            for (Edge edge: graph.get(vertex)) {
+        for (Vertex vertex : verticesOfMST) {
+            for (Edge edge : graph.get(vertex)) {
                 double weight = (double) edge.getWeight();
                 Vertex target = edge.getVertex2();
                 if (weight < smallestWeight && !verticesOfMST.contains(target)) {
@@ -92,7 +93,7 @@ public class PrimsAlgorithm implements GraphAlgorithm {
             List<Edge> currentVertexEdges = graph.get(current);
 
             // Visit all unvisited neighbors of the current Vertex
-            for (Edge edge: currentVertexEdges) {
+            for (Edge edge : currentVertexEdges) {
                 Vertex neighbor = edge.getVertex2();
                 if (!visited.contains(neighbor)) {
                     // Mark neighbor as visited and enqueue
@@ -116,7 +117,7 @@ public class PrimsAlgorithm implements GraphAlgorithm {
         ChildEdgesInAlphabeticalOrder comparator = new ChildEdgesInAlphabeticalOrder();
         edgesOfMST.sort(comparator);
 
-        for (Edge edge: edgesOfMST) {
+        for (Edge edge : edgesOfMST) {
             output += edge.getVertex2().getId() + "=" + edge.getVertex1().getId() + ", ";
         }
 

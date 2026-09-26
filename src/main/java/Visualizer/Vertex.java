@@ -8,10 +8,10 @@ public class Vertex extends JPanel implements Comparable<Vertex> {
 
     protected static final int SIZE = 50;
     protected static final Color VERTEX_COLOR = Color.white;
-    
+
     // green, used while a vertex is being visited by an algorithm
-    protected static final Color HIGHLIGHT_COLOR = new Color(46, 204, 113); 
-    
+    protected static final Color HIGHLIGHT_COLOR = new Color(46, 204, 113);
+
     protected static final Map<String, Vertex> vertices = new HashMap<>();
     private String id;
     private JLabel label;
@@ -53,19 +53,19 @@ public class Vertex extends JPanel implements Comparable<Vertex> {
         g.setColor(this.highlighted ? Vertex.HIGHLIGHT_COLOR : Vertex.VERTEX_COLOR);
         g.fillOval(0, 0, Vertex.SIZE, Vertex.SIZE);
     }
-     public boolean isHighlighted() {
+
+    public boolean isHighlighted() {
         return this.highlighted;
     }
 
     /*
     - Marks this vertex as currently being visited (or not) by an algorithm animation,
     - and repaints it immediately so the change is visible.
-    */
+     */
     public void setHighlighted(boolean highlighted) {
         this.highlighted = highlighted;
         this.repaint();
     }
-
 
     private void setLabel() {
         this.label.setText(this.id);
@@ -77,13 +77,17 @@ public class Vertex extends JPanel implements Comparable<Vertex> {
 
     @Override
     public boolean equals(Object other) {
-        if (this == other) return true;
-        if (!(other instanceof Vertex)) return false;
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof Vertex)) {
+            return false;
+        }
         Vertex otherVertex = (Vertex) other;
 
-        return Objects.equals(this.id, (otherVertex).getId()) &&
-                this.xLocation == otherVertex.getXLocation() &&
-                this.yLocation == otherVertex.getYLocation();
+        return Objects.equals(this.id, (otherVertex).getId())
+                && this.xLocation == otherVertex.getXLocation()
+                && this.yLocation == otherVertex.getYLocation();
     }
 
     @Override

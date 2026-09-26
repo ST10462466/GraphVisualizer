@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
+
     protected static final int WIDTH = 800;
     protected static final int HEIGHT = 600;
     protected static final Color BACKGROUND_COLOR = Color.black;
@@ -24,7 +25,6 @@ public class MainFrame extends JFrame {
         algorithmDisplayLabel.setLayout(new FlowLayout(FlowLayout.TRAILING));
         algorithmDisplayLabel.setVisible(false);
     }
-
 
     public MainFrame() {
         super("Graph-Algorithms Visualizer");
@@ -108,10 +108,10 @@ public class MainFrame extends JFrame {
             mode = Mode.ADD_A_VERTEX;
             // Change text for label
             changeTextForModeLabel("Current Mode -> " + mode.getDescription());
-            
+
             // Remove response to previous vertex clicks
             Graph.edgeVertices.clear();
-            
+
             // Clear any highlighting left from a previous algorithm run
             Graph.clearHighlights();
 
@@ -189,7 +189,7 @@ public class MainFrame extends JFrame {
             changeTextForModeLabel("Current Mode -> " + mode.getDescription());
             // Remove response to previous vertex clicks
             Graph.edgeVertices.clear();
-                
+
             // Switch algorithmDisplayLabel visibility to false and text
             algorithmDisplayLabel.setVisible(false);
             algorithmDisplayLabel.setText("Please choose a starting vertex");

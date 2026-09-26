@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.List;
 
 public class Edge extends JComponent implements Comparable<Edge> {
+
     private Vertex vertex1;
     private Vertex vertex2;
     private int weight;
@@ -40,7 +41,6 @@ public class Edge extends JComponent implements Comparable<Edge> {
     }
 
      */
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -99,8 +99,12 @@ public class Edge extends JComponent implements Comparable<Edge> {
 
     @Override
     public boolean equals(Object other) {
-        if (this == other) return true;
-        if (!(other instanceof Edge)) return false;
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof Edge)) {
+            return false;
+        }
         Edge otherEdge = (Edge) other;
 
         return (this.vertex1.equals(otherEdge.vertex1) || this.vertex1.equals(otherEdge.vertex2))

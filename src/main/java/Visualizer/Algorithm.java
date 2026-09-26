@@ -1,6 +1,7 @@
 package visualizer;
 
 import algorithms.*;
+
 public enum Algorithm {
 
     BFS(new BFSAlgorithm()),

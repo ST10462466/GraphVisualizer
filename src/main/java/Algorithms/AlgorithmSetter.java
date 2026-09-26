@@ -1,4 +1,3 @@
-
 package algorithms;
 
 import visualizer.Edge;
@@ -11,7 +10,7 @@ import java.util.*;
 summary text from BFS/DFS/Dijkstra/Prim. Graph now animates through the
 visit order with a Timer, highlighting each vertex in turn, before
 showing the existing summary text.
-*/
+ */
 public class AlgorithmSetter {
 
     private GraphAlgorithm algorithm;
@@ -21,7 +20,6 @@ public class AlgorithmSetter {
     }
 
     // Runs the currently selected algorithm starting from the given vertex.
-    
     public AlgorithmResult execute(Map<Vertex, List<Edge>> graph, Vertex start) {
         return this.algorithm.run(graph, start);
     }

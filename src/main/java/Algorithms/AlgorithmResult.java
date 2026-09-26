@@ -1,5 +1,5 @@
-
 package algorithms;
+
 import visualizer.Vertex;
 import java.util.Collections;
 import java.util.List;
@@ -12,24 +12,23 @@ import java.util.List;
     used to animate the traversal step by step on screen.
     - summary: the final human-readable result text (unchanged from the original
     BFS/DFS/Dijkstra/Prim output format), shown once the animation finishes.
-*/
-
+ */
 public class AlgorithmResult {
-    
+
     private final List<Vertex> visitOrder;
-        private final String summary;
+    private final String summary;
 
-        public AlgorithmResult(List<Vertex> visitOrder, String summary) {
-            this.visitOrder = Collections.unmodifiableList(visitOrder);
-            this.summary = summary;
-        }
+    public AlgorithmResult(List<Vertex> visitOrder, String summary) {
+        this.visitOrder = Collections.unmodifiableList(visitOrder);
+        this.summary = summary;
+    }
 
-        public List<Vertex> getVisitOrder() {
-            return visitOrder;
-        }
+    public List<Vertex> getVisitOrder() {
+        return visitOrder;
+    }
 
-        public String getSummary() {
-            return summary;
-        }
+    public String getSummary() {
+        return summary;
+    }
 
 }

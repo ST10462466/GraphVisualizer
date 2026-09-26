@@ -5,9 +5,10 @@ import visualizer.Vertex;
 import java.util.*;
 
 public class DijkstrasAlgorithm implements GraphAlgorithm {
+
     @Override
     public AlgorithmResult run(Map<Vertex, List<Edge>> graph, Vertex start) {
-        
+
         // Records the order vertices are settled (finalized) in, for step-by-step animation.
         // Kept separate from outputMap below, which is a TreeMap and therefore always
         // iterates in alphabetical order regardless of insertion order.
@@ -18,8 +19,10 @@ public class DijkstrasAlgorithm implements GraphAlgorithm {
 
         // Initialize distances with infinity for all vertices except the source
         Map<Vertex, Double> distances = new HashMap<>();
-        for (Vertex vertex: graph.keySet()) {
-            if (!vertex.equals(start)) distances.put(vertex, Double.POSITIVE_INFINITY);
+        for (Vertex vertex : graph.keySet()) {
+            if (!vertex.equals(start)) {
+                distances.put(vertex, Double.POSITIVE_INFINITY);
+            }
         }
 
         // Mark all vertices except source as unprocessed
@@ -29,7 +32,7 @@ public class DijkstrasAlgorithm implements GraphAlgorithm {
         List<Edge> startVertexEdges = graph.get(start);
 
         // Update distances to unprocessed neighbors of start vertex
-        for (Edge edge: startVertexEdges) {
+        for (Edge edge : startVertexEdges) {
             Vertex neighbor = edge.getVertex2();
             int weight = edge.getWeight();
             if (unprocessedVertices.contains(neighbor)) {
@@ -50,12 +53,11 @@ public class DijkstrasAlgorithm implements GraphAlgorithm {
             unprocessedVertices.remove(current);
             visitOrder.add(current);
 
-            
             // Find the edges of the current Vertex
             List<Edge> currentVertexEdges = graph.get(current);
 
             // Update distances to unprocessed neighbors
-            for (Edge edge: currentVertexEdges) {
+            for (Edge edge : currentVertexEdges) {
                 Vertex neighbor = edge.getVertex2();
                 double weight = (double) edge.getWeight();
                 if (unprocessedVertices.contains(neighbor)) {
@@ -76,7 +78,7 @@ public class DijkstrasAlgorithm implements GraphAlgorithm {
         Vertex smallestVertex = null;
         double smallestDistance = Double.POSITIVE_INFINITY;
 
-        for (Vertex vertex: unprocessedVertices) {
+        for (Vertex vertex : unprocessedVertices) {
             if (distances.get(vertex) <= smallestDistance) {
                 smallestVertex = vertex;
                 smallestDistance = distances.get(vertex);
@@ -88,7 +90,7 @@ public class DijkstrasAlgorithm implements GraphAlgorithm {
 
     private String processDistances(Map<Vertex, Double> map) {
         String shortestPaths = "";
-        for (Vertex vertex: map.keySet()) {
+        for (Vertex vertex : map.keySet()) {
             Double weight = map.get(vertex);
             if (weight == Double.POSITIVE_INFINITY) {
                 shortestPaths += vertex.getId() + "=" + weight + ", ";

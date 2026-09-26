@@ -53,7 +53,7 @@ public class Graph extends JPanel implements MouseListener {
                 edgeVertices.add(vertex);
                 if (edgeVertices.size() == 2) {
                     // Don't allow edge drawing if an edge between the two selected vertices already exists
-                    for (List<String> verticesOfAnEdge: availableEdges) {
+                    for (List<String> verticesOfAnEdge : availableEdges) {
                         String id1 = edgeVertices.get(0).getId();
                         String id2 = edgeVertices.get(1).getId();
                         if (verticesOfAnEdge.contains(id1) && verticesOfAnEdge.contains(id2)) {
@@ -86,19 +86,21 @@ public class Graph extends JPanel implements MouseListener {
                 List<Edge> edges = new ArrayList<>();
 
                 // Remove edges associated with this vertex
-                for (Edge edge: Edge.edges) {
+                for (Edge edge : Edge.edges) {
                     Vertex vertex1 = edge.getVertex1();
                     Vertex vertex2 = edge.getVertex2();
                     if (vertex.equals(vertex1) || vertex.equals(vertex2)) {
                         // Remove the edge's label from this Graph, if it exists
-                        if (edge.getLabel() != null) this.remove(edge.getLabel());
+                        if (edge.getLabel() != null) {
+                            this.remove(edge.getLabel());
+                        }
                         // Remove the edge from this Graph
                         this.remove(edge);
                         // Remove the couple of vertices from the availableEdges static container
                         String id1 = vertex1.getId();
                         String id2 = vertex2.getId();
                         List<List<String>> newAvailableEdges = new ArrayList<>();
-                        for (List<String> verticesOfAnEdge: availableEdges) {
+                        for (List<String> verticesOfAnEdge : availableEdges) {
                             if (!(verticesOfAnEdge.contains(id1) && verticesOfAnEdge.contains(id2))) {
                                 newAvailableEdges.add(verticesOfAnEdge);
                             }
@@ -119,35 +121,37 @@ public class Graph extends JPanel implements MouseListener {
 
             }
         } else if (MainFrame.mode == Mode.REMOVE_AN_EDGE) {
-                Edge edge = clickedOnEdge(e.getX(), e.getY());
+            Edge edge = clickedOnEdge(e.getX(), e.getY());
 
-                if (edge != null) {
+            if (edge != null) {
 
-                    // Remove the edge from the edges static container of Edge class
-                    // as well as itself and its label from the Graph
-                    List<Edge> edges = new ArrayList<>();
-                    List<Edge> edgesToBeExcluded = new ArrayList<>();
+                // Remove the edge from the edges static container of Edge class
+                // as well as itself and its label from the Graph
+                List<Edge> edges = new ArrayList<>();
+                List<Edge> edgesToBeExcluded = new ArrayList<>();
 
-                    for (Edge otherEdge: Edge.edges) {
-                        if (edge.equals(otherEdge)) {
-                            this.remove(otherEdge);
-                            if (otherEdge.getLabel() != null) {
-                                this.remove(otherEdge.getLabel());
-                            }
-                            edgesToBeExcluded.add(otherEdge);
-                        } else {
-                            edges.add(otherEdge);
+                for (Edge otherEdge : Edge.edges) {
+                    if (edge.equals(otherEdge)) {
+                        this.remove(otherEdge);
+                        if (otherEdge.getLabel() != null) {
+                            this.remove(otherEdge.getLabel());
                         }
+                        edgesToBeExcluded.add(otherEdge);
+                    } else {
+                        edges.add(otherEdge);
                     }
-
-                    // Update the edges static container of Edge class
-                    Edge.edges = edges;
-
-                    // Remove the excluded edges from the availableEdges static container
-                    for (Edge excludedEdge: edgesToBeExcluded) removeEdgeFromStaticList(excludedEdge);
-
-                    this.repaint();
                 }
+
+                // Update the edges static container of Edge class
+                Edge.edges = edges;
+
+                // Remove the excluded edges from the availableEdges static container
+                for (Edge excludedEdge : edgesToBeExcluded) {
+                    removeEdgeFromStaticList(excludedEdge);
+                }
+
+                this.repaint();
+            }
         } else if (MainFrame.mode == Mode.NONE && MainFrame.getAlgorithmDisplayLabel().isVisible()) {
             // Check if a vertex was clicked
             Vertex vertex = clickedOnVertex(e.getX(), e.getY());
@@ -171,26 +175,29 @@ public class Graph extends JPanel implements MouseListener {
                 // Animate the traversal, highlighting one vertex at a time, then show the summary
                 animateTraversal(result);
 
-
             }
         }
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {}
+    public void mousePressed(MouseEvent e) {
+    }
 
     @Override
-    public void mouseReleased(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {
+    }
 
     @Override
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {
+    }
 
     @Override
-    public void mouseExited(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {
+    }
 
     private static Vertex clickedOnVertex(int x, int y) {
 
-        for (var entry: Vertex.vertices.entrySet()) {
+        for (var entry : Vertex.vertices.entrySet()) {
             Vertex vertex = entry.getValue();
             int xLocation = vertex.getXLocation();
             int yLocation = vertex.getYLocation();
@@ -206,7 +213,7 @@ public class Graph extends JPanel implements MouseListener {
 
     private static Edge clickedOnEdge(int x, int y) {
 
-        for (Edge edge: Edge.edges) {
+        for (Edge edge : Edge.edges) {
             // Get the coordinates of the two points that are forming the edge
             int x1 = edge.getX();
             int y1 = edge.getY() + (edge.getTopEqualsLeft() ? 0 : edge.getHeight());
@@ -218,7 +225,9 @@ public class Graph extends JPanel implements MouseListener {
                     (double) x2, (double) y2,
                     (double) x, (double) y);
 
-            if (dist < 5) return edge;
+            if (dist < 5) {
+                return edge;
+            }
 
         }
 
@@ -230,9 +239,11 @@ public class Graph extends JPanel implements MouseListener {
 
         // Check if an edge was clicked
         Edge edge = clickedOnEdge(x, y);
-        if (edge != null) return false;
+        if (edge != null) {
+            return false;
+        }
 
-        for (Vertex vertex: Vertex.vertices.values()) {
+        for (Vertex vertex : Vertex.vertices.values()) {
             int xLocation = vertex.getXLocation();
             int yLocation = vertex.getYLocation();
 
@@ -247,8 +258,10 @@ public class Graph extends JPanel implements MouseListener {
 
     private static boolean validVertexID(String userInput) {
 
-        for (String id: Vertex.vertices.keySet()) {
-            if (userInput.equals(id)) return false;
+        for (String id : Vertex.vertices.keySet()) {
+            if (userInput.equals(id)) {
+                return false;
+            }
         }
 
         return true;
@@ -288,7 +301,7 @@ public class Graph extends JPanel implements MouseListener {
 
         List<List<String>> newEdgesList = new ArrayList<>();
 
-        for (List<String> otherEdge: availableEdges) {
+        for (List<String> otherEdge : availableEdges) {
             if ((!(otherEdge.contains(id1) && otherEdge.contains(id2)))) {
                 newEdgesList.add(otherEdge);
             }
@@ -297,18 +310,17 @@ public class Graph extends JPanel implements MouseListener {
         availableEdges = newEdgesList;
     }
 
-        
     // Turns off highlighting on every vertex, so a new algorithm run starts from a clean slate.
-    
     protected static void clearHighlights() {
-        for (Vertex vertex: Vertex.vertices.values()) {
+        for (Vertex vertex : Vertex.vertices.values()) {
             vertex.setHighlighted(false);
         }
     }
 
     /**
-     * Steps through the algorithm's visit order one vertex at a time, highlighting each in turn,
-     * then replaces the "Please wait..." message with the final summary text once done.
+     * Steps through the algorithm's visit order one vertex at a time,
+     * highlighting each in turn, then replaces the "Please wait..." message
+     * with the final summary text once done.
      */
     private static void animateTraversal(AlgorithmResult result) {
         List<Vertex> visitOrder = result.getVisitOrder();
@@ -331,14 +343,13 @@ public class Graph extends JPanel implements MouseListener {
     private static Map<Vertex, List<Edge>> createGraphDataStructure() {
         Map<Vertex, List<Edge>> output = new HashMap<>();
 
-        
         // Place all available vertices as keys with values as empty lists
-        for (Vertex vertex: Vertex.vertices.values()) {
+        for (Vertex vertex : Vertex.vertices.values()) {
             output.put(vertex, new ArrayList<>());
         }
 
         // Populate the lists of each Vertex with edges that have them as source Vertex
-        for (Edge edge: Edge.edges) {
+        for (Edge edge : Edge.edges) {
             output.get(edge.getVertex1()).add(edge);
         }
 
