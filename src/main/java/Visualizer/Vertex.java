@@ -1,4 +1,4 @@
-package visualizer;
+package Visualizer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,11 +8,16 @@ public class Vertex extends JPanel implements Comparable<Vertex> {
 
     protected static final int SIZE = 50;
     protected static final Color VERTEX_COLOR = Color.white;
+    
+    // green, used while a vertex is being visited by an algorithm
+    protected static final Color HIGHLIGHT_COLOR = new Color(46, 204, 113); 
+    
     protected static final Map<String, Vertex> vertices = new HashMap<>();
     private String id;
     private JLabel label;
     private int xLocation;
     private int yLocation;
+    private boolean highlighted = false;
 
     public Vertex(int x, int y, String id) {
         this.id = id;
@@ -45,9 +50,22 @@ public class Vertex extends JPanel implements Comparable<Vertex> {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Vertex.VERTEX_COLOR);
+        g.setColor(this.highlighted ? Vertex.HIGHLIGHT_COLOR : Vertex.VERTEX_COLOR);
         g.fillOval(0, 0, Vertex.SIZE, Vertex.SIZE);
     }
+     public boolean isHighlighted() {
+        return this.highlighted;
+    }
+
+    /*
+    - Marks this vertex as currently being visited (or not) by an algorithm animation,
+    - and repaints it immediately so the change is visible.
+    */
+    public void setHighlighted(boolean highlighted) {
+        this.highlighted = highlighted;
+        this.repaint();
+    }
+
 
     private void setLabel() {
         this.label.setText(this.id);
