@@ -1,18 +1,19 @@
-package algorithms;
 
+package Algorithms;
 import visualizer.Edge;
 import visualizer.Vertex;
-
 import java.util.*;
 
 public class DFSAlgorithm implements GraphAlgorithm {
 
     @Override
-    public String run(Map<Vertex, List<Edge>> graph, Vertex start) {
+    public AlgorithmResult run(Map<Vertex, List<Edge>> graph, Vertex start) {
 
         // If the chosen vertex doesn't have any edges, then just return it
         if (graph.get(start).isEmpty()) {
-            return "DFS -> " + start.getId();
+            List<Vertex> onlyStart = new ArrayList<>();
+            onlyStart.add(start);
+            return new AlgorithmResult(onlyStart, "DFS -> " + start.getId()) ;
         }
 
         // Initialize the string that will contain the traversal
@@ -20,26 +21,32 @@ public class DFSAlgorithm implements GraphAlgorithm {
 
         // Initialize a set to keep track of visited Vertices
         Set<Vertex> visited = new HashSet<>();
+        
+        // Records the order vertices are first visited in, for step-by-step animation
+        List<Vertex> visitOrder = new ArrayList<>();
+
 
         // Call helper on Start Vertex
-        traversalPath += helper(graph, start, visited);
+        traversalPath += helper(graph, start, visited, visitOrder);
 
         // Iterate through all other nodes in the graph
         for (Vertex vertex: graph.keySet()) {
             if (!visited.contains(vertex) && !graph.get(vertex).isEmpty()) {
-                traversalPath += helper(graph, vertex, visited);
+                traversalPath += helper(graph, vertex, visited, visitOrder);
             }
         }
 
-        return traversalPath.substring(0, traversalPath.length() - 4);
+        String summary = traversalPath.substring(0, traversalPath.length() - 4);
+        return new AlgorithmResult(visitOrder, summary);
     }
 
-    private String helper(Map<Vertex, List<Edge>> graph, Vertex vertex, Set<Vertex> visited) {
+    private String helper(Map<Vertex, List<Edge>> graph, Vertex vertex, Set<Vertex> visited, List<Vertex> visitOrder) {
         // The output string
         String output = "";
 
         // Mark the current Vertex as visited
         visited.add(vertex);
+        visitOrder.add(vertex);
 
         // Process the current Vertex
         output += processVertex(vertex);
@@ -54,7 +61,7 @@ public class DFSAlgorithm implements GraphAlgorithm {
         for (Edge edge: currentVertexEdges) {
             Vertex neighbor = edge.getVertex2();
             if (!visited.contains(neighbor)) {
-                output += helper(graph, neighbor, visited);
+                output += helper(graph, neighbor, visited, visitOrder);
             }
         }
 
