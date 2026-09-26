@@ -1,14 +1,19 @@
-package algorithms;
+package Algorithms;
 
 import visualizer.Edge;
 import visualizer.Vertex;
 
 import java.util.*;
 
+/*
+- Breadth-First Search. Now also records visitOrder so the GUI can animate
+- the traversal step by step, in addition to the original summary string.
+*/
+
 public class BFSAlgorithm implements GraphAlgorithm {
 
     @Override
-    public String run(Map<Vertex, List<Edge>> graph, Vertex start) {
+    public AlgorithmResult run(Map<Vertex, List<Edge>> graph, Vertex start) {
         // Initialize the string that will contain the traversal
         String traversalPath = "BFS : ";
 
@@ -17,6 +22,10 @@ public class BFSAlgorithm implements GraphAlgorithm {
 
         // Initialize a queue for BFS
         Queue<Vertex> queue = new LinkedList<>();
+
+        
+        // Records the order vertices are dequeued/processed in, for step-by-step animation
+        List<Vertex> visitOrder = new ArrayList<>();
 
         // Mark the start Vertex as visited and enqueue it
         visited.add(start);
@@ -29,6 +38,7 @@ public class BFSAlgorithm implements GraphAlgorithm {
 
             // Process the current Vertex
             traversalPath += processVertex(current);
+            visitOrder.add(current);
 
             // Find the Edges of the current Vertex
             List<Edge> currentVertexEdges = graph.get(current);
@@ -47,7 +57,10 @@ public class BFSAlgorithm implements GraphAlgorithm {
             }
         }
 
-        return traversalPath.substring(0, traversalPath.length() - 4);
+        String summary = traversalPath.substring(0, traversalPath.length() - 4);
+        return new AlgorithmResult(visitOrder, summary);
+        
     }
+    
 
 }
