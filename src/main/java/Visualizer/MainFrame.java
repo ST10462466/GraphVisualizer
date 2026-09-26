@@ -108,8 +108,13 @@ public class MainFrame extends JFrame {
             mode = Mode.ADD_A_VERTEX;
             // Change text for label
             changeTextForModeLabel("Current Mode -> " + mode.getDescription());
+            
             // Remove response to previous vertex clicks
             Graph.edgeVertices.clear();
+            
+            // Clear any highlighting left from a previous algorithm run
+            Graph.clearHighlights();
+
             // Switch algorithmDisplayLabel visibility to false and text
             algorithmDisplayLabel.setVisible(false);
             algorithmDisplayLabel.setText("Please choose a starting vertex");
@@ -119,6 +124,8 @@ public class MainFrame extends JFrame {
             mode = Mode.ADD_AN_EDGE;
             // Change text for label
             changeTextForModeLabel("Current Mode -> " + mode.getDescription());
+            // Clear any highlighting left from a previous algorithm run
+            Graph.clearHighlights();
             // Switch algorithmDisplayLabel visibility to false and text
             algorithmDisplayLabel.setVisible(false);
             algorithmDisplayLabel.setText("Please choose a starting vertex");
@@ -130,6 +137,8 @@ public class MainFrame extends JFrame {
             changeTextForModeLabel("Current Mode -> " + mode.getDescription());
             // Remove response to previous vertex clicks
             Graph.edgeVertices.clear();
+            // Clear any highlighting left from a previous algorithm run
+            Graph.clearHighlights();
             // Switch algorithmDisplayLabel visibility to false and text
             algorithmDisplayLabel.setVisible(false);
             algorithmDisplayLabel.setText("Please choose a starting vertex");
@@ -141,6 +150,8 @@ public class MainFrame extends JFrame {
             changeTextForModeLabel("Current Mode -> " + mode.getDescription());
             // Remove response to previous vertex clicks
             Graph.edgeVertices.clear();
+            // Clear any highlighting left from a previous algorithm run
+            Graph.clearHighlights();
             // Switch algorithmDisplayLabel visibility to false and text
             algorithmDisplayLabel.setVisible(false);
             algorithmDisplayLabel.setText("Please choose a starting vertex");
@@ -152,6 +163,8 @@ public class MainFrame extends JFrame {
             changeTextForModeLabel("Current Mode -> " + mode.getDescription());
             // Remove response to previous vertex clicks
             Graph.edgeVertices.clear();
+            // Clear any highlighting left from a previous algorithm run
+            Graph.clearHighlights();
             // Switch algorithmDisplayLabel visibility to false and text
             algorithmDisplayLabel.setVisible(false);
             algorithmDisplayLabel.setText("Please choose a starting vertex");
@@ -170,10 +183,13 @@ public class MainFrame extends JFrame {
             Graph.edgeVertices.clear();
             Graph.availableEdges.clear();
 
-            // Change the mode
+            // Change the mode (or ADD_AN_EDGE / NONE / REMOVE_A_VERTEX / REMOVE_AN_EDGE)
             mode = Mode.ADD_A_VERTEX;
             // Change text for label
             changeTextForModeLabel("Current Mode -> " + mode.getDescription());
+            // Remove response to previous vertex clicks
+            Graph.edgeVertices.clear();
+                
             // Switch algorithmDisplayLabel visibility to false and text
             algorithmDisplayLabel.setVisible(false);
             algorithmDisplayLabel.setText("Please choose a starting vertex");
