@@ -1,4 +1,4 @@
-package Algorithms;
+package algorithms;
 import visualizer.Edge;
 import visualizer.Vertex;
 import java.util.*;
