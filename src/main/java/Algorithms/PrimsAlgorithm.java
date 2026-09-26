@@ -1,17 +1,17 @@
-package algorithms;
-
+package Algorithms;
 import visualizer.Edge;
 import visualizer.Vertex;
-
 import java.util.*;
 
 public class PrimsAlgorithm implements GraphAlgorithm {
     @Override
-    public String run(Map<Vertex, List<Edge>> graph, Vertex start) {
+    public AlgorithmResult run(Map<Vertex, List<Edge>> graph, Vertex start) {
 
         // If the chosen vertex doesn't have any edges, then just return it
         if (graph.get(start).isEmpty()) {
-            return start.getId();
+            List<Vertex> onlyStart = new ArrayList<>();
+            onlyStart.add(start);
+            return new AlgorithmResult(onlyStart, start.getId());
         }
 
         // Initialize a list that will store the edges of the MST (Minimum Spanning Tree)
@@ -20,6 +20,11 @@ public class PrimsAlgorithm implements GraphAlgorithm {
         // Initialize a set that will store the vertices belonging to the MST and add the start Vertex to it
         Set<Vertex> verticesOfMST = new HashSet<>();
         verticesOfMST.add(start);
+        
+        // Records the order vertices join the MST in, for step-by-step animation
+        List<Vertex> visitOrder = new ArrayList<>();
+        visitOrder.add(start);
+
 
         // Find all directly and indirectly connected vertices of the Start Vertex
         Set<Vertex> connectedVertices = findConnectedVertices(graph, start);
@@ -32,9 +37,11 @@ public class PrimsAlgorithm implements GraphAlgorithm {
             // Add it to the edgesOfMST list and mark the target Vertex as processed
             edgesOfMST.add(lowestWeightEdge);
             verticesOfMST.add(lowestWeightEdge.getVertex2());
+            visitOrder.add(lowestWeightEdge.getVertex2());
         }
 
-        return processEdgesOfMST(edgesOfMST);
+        String summary = processEdgesOfMST(edgesOfMST);
+        return new AlgorithmResult(visitOrder, summary);
     }
 
     private static Edge findLowestEdgeWeight(Map<Vertex, List<Edge>> graph, Set<Vertex> verticesOfMST) {
